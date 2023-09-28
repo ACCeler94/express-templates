@@ -16,7 +16,7 @@ app.use(express.json()); // required to handle form-data request (optional in th
 
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads')
+    cb(null, './public/uploads')
   },
   filename: function (req, file, cb) {
     let extArray = file.mimetype.split("/");
@@ -41,11 +41,11 @@ app.get('/contact', (req, res) => {
 app.post('/contact/send-message', upload.single('uploaded_file'), (req, res) => {
 
   const { author, sender, title, message } = req.body;
-  console.log(req.file)
 
   if (author && sender && title && message && req.file) {
     const originalname = req.file.originalname;
-    res.render('contact', { isSent: true, originalname });
+    const newFilename = req.file.filename;
+    res.render('contact', { isSent: true, originalname, newFilename });
   }
   else {
     res.render('contact', { isError: true });
