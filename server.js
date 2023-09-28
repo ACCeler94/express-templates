@@ -41,10 +41,10 @@ app.get('/contact', (req, res) => {
 app.post('/contact/send-message', upload.single('uploaded_file'), (req, res) => {
 
   const { author, sender, title, message } = req.body;
-  const { originalname } = req.file;
   console.log(req.file)
 
-  if (author && sender && title && message && originalname) {
+  if (author && sender && title && message && req.file) {
+    const originalname = req.file.originalname;
     res.render('contact', { isSent: true, originalname });
   }
   else {
